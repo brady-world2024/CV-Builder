@@ -1,0 +1,18 @@
+.exportButtons {
+    margin-top: 20px;
+  }
+  
+  .exportButtons button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .exportButtons button:hover {
+    background-color: #2980b9;
+  }
