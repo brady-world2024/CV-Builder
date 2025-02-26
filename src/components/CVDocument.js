@@ -3,6 +3,7 @@ import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 // 与 CVTemplate 中一致的辅助函数
 const computeBaseFontSize = (data) => {
+    // eslint-disable-next-line no-unused-vars
   const countArray = (arr) => arr.length;
   const totalItems =
     1 + // Personal Info
