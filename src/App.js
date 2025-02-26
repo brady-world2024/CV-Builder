@@ -9,6 +9,8 @@ import InternshipForm from './components/InternshipForm';
 import InterestsForm from './components/InterestsForm';
 import RefereesForm from './components/RefereesForm';
 import CVTemplate from './components/CVTemplate';
+import ExportButtons from './components/ExportButtons';
+import TemplateUpload from './components/TemplateUpload';
 import './App.css';
 
 function App() {
@@ -23,14 +25,17 @@ function App() {
     interests: [],
     referees: [],
   });
+  const [pdfTemplate, setPdfTemplate] = useState(null);
 
   const updateData = (section, data) => {
     setCvData((prev) => ({ ...prev, [section]: data }));
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div className="appContainer">
       <h1>CV Builder</h1>
+      {/* 上传模板 */}
+      <TemplateUpload onTemplateUpload={(template) => setPdfTemplate(template)} />
       <PersonalInfoForm onSubmit={(data) => updateData('personalInfo', data)} />
       <StatementForm onSubmit={(data) => updateData('statement', data)} />
       <SkillsForm onSubmit={(data) => updateData('skills', data)} />
@@ -42,6 +47,7 @@ function App() {
       <RefereesForm onSubmit={(data) => updateData('referees', data)} />
       <h2>Preview</h2>
       <CVTemplate data={cvData} />
+      <ExportButtons data={cvData} pdfTemplate={pdfTemplate} />
     </div>
   );
 }

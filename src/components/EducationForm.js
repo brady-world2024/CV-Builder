@@ -1,37 +1,51 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import './EducationForm.css';
+import styles from './EducationForm.module.css'; // 改为模块化 CSS
 
-function EducationForm({ onSubmit }) {
+function EducationForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
   const [education, setEducation] = useState([]);
 
   const submitForm = (data) => {
     const newEducation = [...education, data];
     setEducation(newEducation);
-    onSubmit(newEducation);
+    if (typeof onSubmit === 'function') {
+      onSubmit(newEducation);
+    }
     reset();
   };
 
+  const deleteLast = () => {
+    if (education.length === 0) return;
+    const newEducation = education.slice(0, -1);
+    setEducation(newEducation);
+    if (typeof onSubmit === 'function') {
+      onSubmit(newEducation);
+    }
+  };
+
   return (
-    <form className="formSection" onSubmit={handleSubmit(submitForm)}>
+    <form className={styles.formSection} onSubmit={handleSubmit(submitForm)}>
       <h3>Education</h3>
       <div>
-        <label>School:</label>
-        <input {...register('school', { required: true })} />
+        <label className={styles.label}>School:</label>
+        <input {...register('school', { required: true })} className={styles.input} />
       </div>
       <div>
-        <label>Degree:</label>
-        <input {...register('degree')} />
+        <label className={styles.label}>Degree:</label>
+        <input {...register('degree')} className={styles.input} />
       </div>
       <div>
-        <label>Duration:</label>
-        <input {...register('duration')} />
+        <label className={styles.label}>Duration:</label>
+        <input {...register('duration')} className={styles.input} />
       </div>
-      <button type="submit">Add</button>
-      <ul>
+      <div className={styles.buttonContainer}>
+        <button type="submit" className={styles.buttonAdd}>Add</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+      </div>
+      <ul className={styles.list}>
         {education.map((edu, i) => (
-          <li key={i}> {edu.school} - {edu.degree} ({edu.duration}) </li>
+          <li key={i}>{edu.school} - {edu.degree} ({edu.duration})</li>
         ))}
       </ul>
     </form>
