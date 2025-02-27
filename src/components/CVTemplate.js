@@ -1,17 +1,13 @@
 import React from 'react';
-import './CVTemplate.css';
+import styles from './CVTemplate.module.css'; 
 
-/**
- * 辅助函数：根据分号拆分文本，每个子项换行，
- * 行首添加小圆点，若存在冒号则冒号前内容加粗。
- */
 function formatBySemicolon(text) {
   const parts = text.split(';').filter(item => item.trim() !== '');
   return parts.map((part, index) => {
     const colonIndex = part.indexOf(':');
     if (colonIndex !== -1) {
       const beforeColon = part.substring(0, colonIndex).trim();
-      const afterColon = part.substring(colonIndex); // 包含冒号
+      const afterColon = part.substring(colonIndex);
       return (
         <div key={index}>
           <span className="bullet">• </span>
@@ -30,14 +26,11 @@ function formatBySemicolon(text) {
   });
 }
 
-/**
- * 根据数据项数动态计算基础字号（正文字号），以便内容均匀填满 2 页 A4。
- */
 const computeBaseFontSize = (data) => {
   const countArray = (arr) => arr.length;
   const totalItems =
-    1 + // Personal Info
-    1 + // Statement
+    1 +
+    1 +
     (countArray(data.skills.techStack) + countArray(data.skills.transferable)) +
     countArray(data.education) +
     countArray(data.projects) +
@@ -48,39 +41,24 @@ const computeBaseFontSize = (data) => {
   return Math.max(8, Math.min(12, 1564 / (totalItems * 30)));
 };
 
-/**
- * 根据基础字号动态计算一级标题和二级标题的倍率。
- */
-const computeHeadingMultipliers = (baseFontSize) => {
-  if (baseFontSize > 10) {
-    return { h1: 1.8, h2: 1.4 };
-  } else {
-    return { h1: 1.6, h2: 1.2 };
-  }
+const computeHeadingMultipliers = () => {
+  return { h1: 1.3, h2: 1.1 };
 };
 
-function CVTemplate({ data }) {
+function CVTemplate({ data, exportForWord = false, darkMode = false }) {
   const baseFontSize = computeBaseFontSize(data);
   const { h1: h1Multiplier, h2: h2Multiplier } = computeHeadingMultipliers(baseFontSize);
   const baseStyle = { fontSize: baseFontSize + 'pt' };
 
   return (
-    <div className="cvTemplate" style={{ width: '210mm', margin: '0 auto', ...baseStyle }}>
-      {/* 一级标题使用 baseFontSize * h1Multiplier */}
+    <div className={`${styles.cvTemplate} ${darkMode ? styles.dark : styles.light}`} style={{ ...baseStyle }}>
       <h1 style={{ fontSize: baseFontSize * h1Multiplier + 'pt' }}>
         {data.personalInfo.name || 'Your Name'}
       </h1>
       <p>{data.personalInfo.location}</p>
-      <p>
-        <strong>Phone:</strong> {data.personalInfo.phone}
-      </p>
-      <p>
-        <strong>Email:</strong> {data.personalInfo.email}
-      </p>
-      <p>
-        <strong>My Portfolio:</strong>{' '}
-        <a href={data.personalInfo.portfolio}>{data.personalInfo.portfolio}</a>
-      </p>
+      <p><strong>Phone:</strong> {data.personalInfo.phone}</p>
+      <p><strong>Email:</strong> {data.personalInfo.email}</p>
+      <p><strong>My Portfolio:</strong> <a href={data.personalInfo.portfolio}>{data.personalInfo.portfolio}</a></p>
       <hr />
 
       <h1 style={{ fontSize: baseFontSize * h1Multiplier + 'pt' }}>PERSONAL STATEMENT</h1>
@@ -106,9 +84,7 @@ function CVTemplate({ data }) {
       {data.education.map((edu, i) => (
         <div key={i}>
           <h2 style={{ fontSize: baseFontSize * h2Multiplier + 'pt' }}>{edu.school}</h2>
-          <p>
-            {edu.degree} ({edu.duration})
-          </p>
+          <p>{edu.degree} ({edu.duration})</p>
         </div>
       ))}
       <hr />
@@ -122,56 +98,93 @@ function CVTemplate({ data }) {
           <p>{proj.description}</p>
           {proj.systemArchitecture && (
             <div>
-              <p>
-                <strong>System Architecture:</strong>
-              </p>
+              <p><strong>System Architecture:</strong></p>
               {formatBySemicolon(proj.systemArchitecture)}
             </div>
           )}
-          <p>
-            <strong>Tech Stack:</strong>{' '}
-            <span style={{ fontWeight: 'bold' }}>{proj.techStack}</span>
-          </p>
+          <p><strong>Tech Stack:</strong> <span style={{ fontWeight: 'bold' }}>{proj.techStack}</span></p>
         </div>
       ))}
       <hr />
 
       <h1 style={{ fontSize: baseFontSize * h1Multiplier + 'pt' }}>WORK EXPERIENCE</h1>
-      {data.workExperience.map((exp, i) => (
-        <div key={i} className="experience-container">
-          <div className="left-column">
-            <span>{exp.company}</span>
-            <p>{exp.location}</p>
-            <p>{exp.duration}</p>
+      {data.workExperience.map((exp, i) =>
+        exportForWord ? (
+          <table key={i} style={{ width: '100%', marginBottom: '10px', tableLayout: 'fixed' }}>
+            <tbody>
+              <tr>
+                <td style={{ width: '25%', verticalAlign: 'top', paddingRight: '10px', boxSizing: 'border-box' }}>
+                  <span>{exp.company}</span>
+                  <p>{exp.location}</p>
+                  <p>{exp.duration}</p>
+                </td>
+                <td style={{ width: '75%', verticalAlign: 'top', paddingLeft: '10px', boxSizing: 'border-box' }}>
+                  <span>{exp.role}</span>
+                  {exp.responsibilities &&
+                    exp.responsibilities.map((resp, j) => (
+                      <div key={j}>{formatBySemicolon(resp)}</div>
+                    ))}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <div key={i} className="experience-container">
+            <div className="left-column">
+              <span>{exp.company}</span>
+              <p>{exp.location}</p>
+              <p>{exp.duration}</p>
+            </div>
+            <div className="right-column">
+              <span>{exp.role}</span>
+              {exp.responsibilities &&
+                exp.responsibilities.map((resp, j) => (
+                  <div key={j}>{formatBySemicolon(resp)}</div>
+                ))}
+            </div>
           </div>
-          <div className="right-column">
-            <span>{exp.role}</span>
-            {exp.responsibilities &&
-              exp.responsibilities.map((resp, j) => (
-                <div key={j}>{formatBySemicolon(resp)}</div>
-              ))}
-          </div>
-        </div>
-      ))}
+        )
+      )}
       <hr />
 
       <h1 style={{ fontSize: baseFontSize * h1Multiplier + 'pt' }}>INTERNSHIPS</h1>
-      {data.internships.map((intern, i) => (
-        <div key={i} className="experience-container">
-          <div className="left-column">
-            <span>{intern.company}</span>
-            <p>{intern.location}</p>
-            <p>{intern.duration}</p>
+      {data.internships.map((intern, i) =>
+        exportForWord ? (
+          <table key={i} style={{ width: '100%', marginBottom: '10px', tableLayout: 'fixed' }}>
+            <tbody>
+              <tr>
+                <td style={{ width: '25%', verticalAlign: 'top', paddingRight: '10px', boxSizing: 'border-box' }}>
+                  <span>{intern.company}</span>
+                  <p>{intern.location}</p>
+                  <p>{intern.duration}</p>
+                </td>
+                <td style={{ width: '75%', verticalAlign: 'top', paddingLeft: '10px', boxSizing: 'border-box' }}>
+                  <span>{intern.role}</span>
+                  {intern.responsibilities &&
+                    intern.responsibilities.map((resp, j) => (
+                      <div key={j}>{formatBySemicolon(resp)}</div>
+                    ))}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <div key={i} className="experience-container">
+            <div className="left-column">
+              <span>{intern.company}</span>
+              <p>{intern.location}</p>
+              <p>{intern.duration}</p>
+            </div>
+            <div className="right-column">
+              <span>{intern.role}</span>
+              {intern.responsibilities &&
+                intern.responsibilities.map((resp, j) => (
+                  <div key={j}>{formatBySemicolon(resp)}</div>
+                ))}
+            </div>
           </div>
-          <div className="right-column">
-            <span>{intern.role}</span>
-            {intern.responsibilities &&
-              intern.responsibilities.map((resp, j) => (
-                <div key={j}>{formatBySemicolon(resp)}</div>
-              ))}
-          </div>
-        </div>
-      ))}
+        )
+      )}
       <hr />
 
       <h1 style={{ fontSize: baseFontSize * h1Multiplier + 'pt' }}>INTERESTS</h1>
@@ -187,12 +200,8 @@ function CVTemplate({ data }) {
         <div key={i}>
           <p>{ref.name}</p>
           <p>{ref.title}</p>
-          <p>
-            <strong>Mobile:</strong> {ref.mobile}
-          </p>
-          <p>
-            <strong>Email:</strong> {ref.email}
-          </p>
+          <p><strong>Mobile:</strong> {ref.mobile}</p>
+          <p><strong>Email:</strong> {ref.email}</p>
         </div>
       ))}
     </div>

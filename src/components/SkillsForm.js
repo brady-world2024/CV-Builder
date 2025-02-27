@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './SkillsForm.module.css'; // 改为模块化 CSS
+import styles from './SkillsForm.module.css'; 
 
 function SkillsForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
@@ -43,7 +43,7 @@ function SkillsForm({ onSubmit = () => {} }) {
       </div>
       <div className={styles.buttonContainer}>
         <button type="submit" className={styles.buttonAdd}>Add</button>
-        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Undo</button>
       </div>
       <div>
         <h4>Tech Stack</h4>

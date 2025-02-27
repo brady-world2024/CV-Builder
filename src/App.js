@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import NavBar from './components/NavBar';
 import PersonalInfoForm from './components/PersonalInfoForm';
 import StatementForm from './components/StatementForm';
 import SkillsForm from './components/SkillsForm';
@@ -10,7 +11,6 @@ import InterestsForm from './components/InterestsForm';
 import RefereesForm from './components/RefereesForm';
 import CVTemplate from './components/CVTemplate';
 import ExportButtons from './components/ExportButtons';
-import TemplateUpload from './components/TemplateUpload';
 import './App.css';
 
 function App() {
@@ -25,29 +25,39 @@ function App() {
     interests: [],
     referees: [],
   });
-  const [pdfTemplate, setPdfTemplate] = useState(null);
 
   const updateData = (section, data) => {
     setCvData((prev) => ({ ...prev, [section]: data }));
   };
 
+
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
+
+ 
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark' : 'light';
+  }, [darkMode]);
+
   return (
-    <div className="appContainer">
-      <h1>CV Builder</h1>
-      {/* 上传模板 */}
-      <TemplateUpload onTemplateUpload={(template) => setPdfTemplate(template)} />
-      <PersonalInfoForm onSubmit={(data) => updateData('personalInfo', data)} />
-      <StatementForm onSubmit={(data) => updateData('statement', data)} />
-      <SkillsForm onSubmit={(data) => updateData('skills', data)} />
-      <EducationForm onSubmit={(data) => updateData('education', data)} />
-      <ProjectForm onSubmit={(data) => updateData('projects', data)} />
-      <WorkExperienceForm onSubmit={(data) => updateData('workExperience', data)} />
-      <InternshipForm onSubmit={(data) => updateData('internships', data)} />
-      <InterestsForm onSubmit={(data) => updateData('interests', data)} />
-      <RefereesForm onSubmit={(data) => updateData('referees', data)} />
-      <h2>Preview</h2>
-      <CVTemplate data={cvData} />
-      <ExportButtons data={cvData} pdfTemplate={pdfTemplate} />
+    <div className={`appContainer ${darkMode ? 'dark' : 'light'}`}>
+      <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+      <div className="content">
+        <PersonalInfoForm onSubmit={(data) => updateData('personalInfo', data)} />
+        <StatementForm onSubmit={(data) => updateData('statement', data)} />
+        <SkillsForm onSubmit={(data) => updateData('skills', data)} />
+        <EducationForm onSubmit={(data) => updateData('education', data)} />
+        <ProjectForm onSubmit={(data) => updateData('projects', data)} />
+        <WorkExperienceForm onSubmit={(data) => updateData('workExperience', data)} />
+        <InternshipForm onSubmit={(data) => updateData('internships', data)} />
+        <InterestsForm onSubmit={(data) => updateData('interests', data)} />
+        <RefereesForm onSubmit={(data) => updateData('referees', data)} />
+        <h2>Preview</h2>
+        <CVTemplate data={cvData} />
+        <ExportButtons data={cvData} />
+      </div>
     </div>
   );
 }

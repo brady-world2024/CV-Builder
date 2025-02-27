@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './InternshipForm.module.css'; // 使用模块化 CSS
+import styles from './InternshipForm.module.css'; 
 
 function InternshipForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
   const [internships, setInternships] = useState([]);
 
   const submitForm = (data) => {
-    // 使用句号分隔职责并清理空白
+
     const responsibilities = data.responsibilities.split('.').map(r => r.trim()).filter(Boolean);
     const newInternships = [...internships, { ...data, responsibilities }];
     setInternships(newInternships);
@@ -55,7 +55,7 @@ function InternshipForm({ onSubmit = () => {} }) {
       </div>
       <div className={styles.buttonContainer}>
         <button type="submit" className={styles.buttonAdd}>Add</button>
-        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Undo</button>
       </div>
       <ul className={styles.list}>
         {internships.map((intern, i) => (

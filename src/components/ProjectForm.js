@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './ProjectForm.module.css'; // 改为模块化 CSS
+import styles from './ProjectForm.module.css'; 
 
 function ProjectForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
@@ -49,7 +49,7 @@ function ProjectForm({ onSubmit = () => {} }) {
       </div>
       <div className={styles.buttonContainer}>
         <button type="submit" className={styles.buttonAdd}>Add</button>
-        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Undo</button>
       </div>
       <ul className={styles.list}>
         {projects.map((proj, i) => (

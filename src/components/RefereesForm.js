@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './RefereesForm.module.css'; // 改为模块化 CSS
+import styles from './RefereesForm.module.css'; 
 
 function RefereesForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
@@ -45,7 +45,7 @@ function RefereesForm({ onSubmit = () => {} }) {
       </div>
       <div className={styles.buttonContainer}>
         <button type="submit" className={styles.buttonAdd}>Add</button>
-        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Undo</button>
       </div>
       <ul className={styles.list}>
         {referees.map((ref, i) => (

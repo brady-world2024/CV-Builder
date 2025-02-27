@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
-// 与 CVTemplate 中一致的辅助函数
+
 const computeBaseFontSize = (data) => {
     // eslint-disable-next-line no-unused-vars
   const countArray = (arr) => arr.length;
@@ -26,7 +26,7 @@ const computeHeadingMultipliers = (baseFontSize) => {
   }
 };
 
-// 根据 CVTemplate 的样式定义 PDF 样式（注意：颜色、边距可按需微调）
+
 const createStyles = (baseFontSize, h1Multiplier, h2Multiplier) =>
   StyleSheet.create({
     page: {
@@ -84,17 +84,17 @@ const createStyles = (baseFontSize, h1Multiplier, h2Multiplier) =>
   });
 
 const CVDocument = ({ data }) => {
-  // 使用 CVTemplate 中的逻辑计算基础字号和标题倍率
+ 
   const baseFontSize = computeBaseFontSize(data);
   const { h1: h1Multiplier, h2: h2Multiplier } = computeHeadingMultipliers(baseFontSize);
   const styles = createStyles(baseFontSize, h1Multiplier, h2Multiplier);
 
   return (
     <Document>
-      {/* 第一页：个人信息、个人陈述、技能、教育 */}
+ 
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
-          {/* 个人信息 */}
+
           <Text style={styles.h1}>{data.personalInfo.name || 'Your Name'}</Text>
           <Text style={styles.text}>{data.personalInfo.location}</Text>
           <Text style={styles.text}>
@@ -109,12 +109,12 @@ const CVDocument = ({ data }) => {
           </Text>
           <View style={styles.hr} />
 
-          {/* 个人陈述 */}
+   
           <Text style={styles.h1}>PERSONAL STATEMENT</Text>
           <Text style={styles.text}>{data.statement || 'Your personal statement goes here'}</Text>
           <View style={styles.hr} />
 
-          {/* 技能 */}
+      
           <Text style={styles.h1}>SKILLS</Text>
           <Text style={styles.h2}>Tech Stack</Text>
           {data.skills.techStack.map((skill, i) => (
@@ -126,7 +126,6 @@ const CVDocument = ({ data }) => {
           ))}
           <View style={styles.hr} />
 
-          {/* 教育经历 */}
           <Text style={styles.h1}>EDUCATION</Text>
           {data.education.map((edu, i) => (
             <View key={i} style={styles.container}>
@@ -138,10 +137,10 @@ const CVDocument = ({ data }) => {
         </View>
       </Page>
 
-      {/* 第二页：项目、工作经历、实习、兴趣、推荐人 */}
+
       <Page size="A4" style={styles.page}>
         <View style={styles.container}>
-          {/* 项目经验 */}
+
           <Text style={styles.h1}>PROJECTS</Text>
           {data.projects.map((proj, i) => (
             <View key={i} style={styles.container}>
@@ -154,7 +153,7 @@ const CVDocument = ({ data }) => {
                   <Text style={styles.text}>
                     <Text style={styles.boldText}>System Architecture:</Text>
                   </Text>
-                  {/* 按分号拆分显示 */}
+
                   {proj.systemArchitecture.split(';').map((arch, j) =>
                     arch.trim() ? <Text key={j} style={styles.text}>{arch.trim()}</Text> : null
                   )}
@@ -167,7 +166,6 @@ const CVDocument = ({ data }) => {
           ))}
           <View style={styles.hr} />
 
-          {/* 工作经历 */}
           <Text style={styles.h1}>WORK EXPERIENCE</Text>
           {data.workExperience.map((exp, i) => (
             <View key={i} style={styles.experienceContainer}>
@@ -187,7 +185,6 @@ const CVDocument = ({ data }) => {
           ))}
           <View style={styles.hr} />
 
-          {/* 实习经历 */}
           <Text style={styles.h1}>INTERNSHIPS</Text>
           {data.internships.map((intern, i) => (
             <View key={i} style={styles.experienceContainer}>
@@ -207,14 +204,13 @@ const CVDocument = ({ data }) => {
           ))}
           <View style={styles.hr} />
 
-          {/* 兴趣爱好 */}
           <Text style={styles.h1}>INTERESTS</Text>
           {data.interests.map((interest, i) => (
             <Text key={i} style={styles.text}>{interest}</Text>
           ))}
           <View style={styles.hr} />
 
-          {/* 推荐人 */}
+     
           <Text style={styles.h1}>REFEREES</Text>
           {data.referees.map((ref, i) => (
             <View key={i} style={styles.container}>

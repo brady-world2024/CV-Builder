@@ -19,5 +19,5 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
-    box-sizing: border-box; /* 确保 padding 不影响宽度 */
+    box-sizing: border-box; 
   }

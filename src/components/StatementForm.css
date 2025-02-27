@@ -1,16 +1,20 @@
+/* PersonalInfoForm.css */
 .formSection {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
   
-  .formSection h3 {
-    margin-top: 0;
-    margin-bottom: 10px;
+  .formSection label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #34495e;
   }
   
+  .formSection input,
   .formSection textarea {
     width: 100%;
     padding: 10px;
@@ -18,7 +22,9 @@
     border-radius: 4px;
     margin-bottom: 10px;
     font-size: 1rem;
-    resize: vertical;
+    color: #34495e;
+    background-color: #fff;
+    box-sizing: border-box;
   }
   
   .formSection button {
@@ -29,9 +35,26 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
   }
   
   .formSection button:hover {
     background-color: #2980b9;
   }
+  
+
+  body.dark .formSection {
+    background-color: #444444;
+    color: #8e44ad; 
+  }
+  
+  body.dark .formSection label {
+    color: #8e44ad;
+  }
+  
+  body.dark .formSection input,
+  body.dark .formSection textarea {
+    background-color: #555555;
+    border-color: #666666;
+    color: #8e44ad;
+  }
+  

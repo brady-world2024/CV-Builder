@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import styles from './WorkExperienceForm.module.css'; // 使用模块化 CSS
+import styles from './WorkExperienceForm.module.css'; 
 
 function WorkExperienceForm({ onSubmit = () => {} }) {
   const { register, handleSubmit, reset } = useForm();
   const [workExperience, setWorkExperience] = useState([]);
 
   const submitForm = (data) => {
-    // 使用句号分隔职责并清理空白
+ 
     const responsibilities = data.responsibilities.split('.').map(r => r.trim()).filter(Boolean);
     const newWork = [...workExperience, { ...data, responsibilities }];
     setWorkExperience(newWork);
@@ -55,7 +55,7 @@ function WorkExperienceForm({ onSubmit = () => {} }) {
       </div>
       <div className={styles.buttonContainer}>
         <button type="submit" className={styles.buttonAdd}>Add</button>
-        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Delete Last</button>
+        <button type="button" onClick={deleteLast} className={styles.buttonDelete}>Undo</button>
       </div>
       <ul className={styles.list}>
         {workExperience.map((exp, i) => (

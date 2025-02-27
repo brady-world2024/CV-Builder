@@ -1,7 +1,32 @@
+
+:root {
+  --light-bg: #ffffff;
+  --light-text: #333333;
+  --dark-bg: #333333;
+  --dark-text: #8e44ad;
+}
+
+
+body.light {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+body.dark {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+
 .appContainer {
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+.content {
   padding: 20px;
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
+  max-width: 800px; 
+  margin: 0 auto;
 }

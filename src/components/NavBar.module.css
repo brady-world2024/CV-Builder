@@ -1,0 +1,54 @@
+
+:root {
+    --navbar-bg-light: #3498db;
+    --navbar-bg-dark: #1e2a44;
+    --text-light: #fff;
+    --text-dark: #d3d3d3;
+  }
+  
+  .navbar {
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+  
+  .light {
+    background-color: var(--navbar-bg-light);
+  }
+  
+  .dark {
+    background-color: var(--navbar-bg-dark);
+  }
+  
+  .left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-light);
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .toggleButton {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    outline: none;
+  }

@@ -1,9 +1,17 @@
 .formSection {
-  background-color: #fff;
+  background-color: var(--background-color);
+  color: var(--text-color);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
-  margin-bottom: 20px;
+  max-width: 1000px; /* 限制组件宽度 */
+  margin: 20px auto; /* 居中显示 */
+}
+
+/* 使用 :global 包裹全局 dark 类 */
+:global(.dark) .formSection {
+  background-color: #444444;
+  color: #8e44ad; /* 紫色 */
 }
 
 .formSection h3 {
@@ -15,7 +23,12 @@
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #34495e;
+  color: var(--text-color);
+}
+
+.dark .label {
+
+  color: #8e44ad;
 }
 
 .input {
@@ -25,16 +38,25 @@
   border-radius: 4px;
   margin-bottom: 10px;
   font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  box-sizing: border-box;
+}
+
+:global(.dark) .input {
+  background-color: #555555;
+  border-color: #666666;
+  color: #8e44ad;
 }
 
 .buttonContainer {
   display: flex;
-  gap: 10px; /* 按钮间距 */
+  gap: 10px; 
   margin-top: 10px;
 }
 
 .buttonAdd {
-  background-color: #3498db; /* 蓝色，与 "Add" 一致 */
+  background-color: #3498db;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -44,11 +66,12 @@
 }
 
 .buttonAdd:hover {
-  background-color: #2980b9; /* 悬停变深蓝 */
+  background-color: #2980b9;
 }
 
+
 .buttonDelete {
-  background-color: #e74c3c; /* 红色，表示删除 */
+  background-color: #8e44ad;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -58,7 +81,17 @@
 }
 
 .buttonDelete:hover {
-  background-color: #c0392b; /* 悬停变深红 */
+  background-color: #732d91;
+}
+
+
+:global(.dark) .buttonDelete {
+  background-color: #b58900;
+  color: #fff;
+}
+
+:global(.dark) .buttonDelete:hover {
+  background-color: #a67c00;
 }
 
 .list {
@@ -68,14 +101,10 @@
 }
 
 .list li {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  color: var(--text-color);
 }
 
-.responsibilities {
-  margin-top: 5px;
-  margin-left: 20px;
-}
-
-.responsibilities div {
-  margin-bottom: 3px;
+:global(.dark) .list li {
+  color: #8e44ad;
 }
